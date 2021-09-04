@@ -1,5 +1,5 @@
 "use strict";
-const {users}=require('../models/index');
+const { users } = require("../models/index");
 class Collection {
   constructor(model) {
     this.model = model;
@@ -62,4 +62,4 @@ class Collection {
   }
 }
 
-module.exports=Collection
+module.exports = Collection;

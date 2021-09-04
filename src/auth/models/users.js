@@ -5,9 +5,8 @@ const jwt = require("jsonwebtoken");
 
 const SECRET = process.env.SECRET || "avengers";
 
-const workerModel = (sequelize, DataTypes) => {
-  const model = sequelize.define("worker", {
-    userId:{type: DataTypes.INTEGER },
+const clientModel = (sequelize, DataTypes) => {
+  const model = sequelize.define("users", {
     username: { type: DataTypes.STRING, required: true, unique: true },
     firstName: { type: DataTypes.STRING, required: true },
     lastName: { type: DataTypes.STRING, required: true },
@@ -16,26 +15,18 @@ const workerModel = (sequelize, DataTypes) => {
     phone: { type: DataTypes.STRING, required: true },
     location: { type: DataTypes.STRING, required: true },
     store: { type: DataTypes.STRING },
-    workType: { type: DataTypes.STRING, required: true },
+    workType: { type: DataTypes.STRING },
     // ==========================
-    profilePicture: { type: DataTypes.STRING },
-    favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    recently: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    // ===========================
-    notification: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    status: { type: DataTypes.STRING },
-    scheduleWork: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    hisWork: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    offers: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    bio: { type: DataTypes.STRING },
-    tools: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    reviews: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    chat: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    post: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    // profilePicture: { type: DataTypes.STRING },
+    // favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    // favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    // recently: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    // notification: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    // chat: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    // post: { type: DataTypes.ARRAY(DataTypes.JSON) },
 
     role: {
-      type: DataTypes.ENUM("user"),
+      type: DataTypes.ENUM("user", "admin", "worker"),
       required: true,
       defaultValue: "user",
     },
@@ -54,6 +45,8 @@ const workerModel = (sequelize, DataTypes) => {
       get() {
         const acl = {
           user: ["read"],
+          worker:["read"],
+          admin: ['read', 'create', 'update', 'delete','readAll']
         };
         return acl[this.role];
       },
@@ -95,4 +88,4 @@ const workerModel = (sequelize, DataTypes) => {
   return model;
 };
 
-module.exports = workerModel;
+module.exports = clientModel;

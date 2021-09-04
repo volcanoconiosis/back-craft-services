@@ -1,34 +1,33 @@
-'use strict';
-require('dotenv').config();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+"use strict";
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
-const SECRET = process.env.SECRET || 'avengers';
+const SECRET = process.env.SECRET || "avengers";
 
 const clientModel = (sequelize, DataTypes) => {
-  const model = sequelize.define('client', {
+  const model = sequelize.define("client", {
     username: { type: DataTypes.STRING, required: true, unique: true },
-    firstName:{type: DataTypes.STRING, required: true},
-    lastName:{type: DataTypes.STRING, required: true},
+    firstName: { type: DataTypes.STRING, required: true },
+    lastName: { type: DataTypes.STRING, required: true },
     password: { type: DataTypes.STRING, required: true },
-    email:{type: DataTypes.STRING, required: true, unique: true},
-    phone:{type: DataTypes.STRING, required: true},
-    location:{type: DataTypes.STRING, required: true},
-    // ========================== 
-    profilePicture:{type: DataTypes.STRING},
-    favoriteWorker:{type: DataTypes.ARRAY},
-    favoriteImg:{type: DataTypes.ARRAY},
-    recently:{type: DataTypes.ARRAY},
-    notification:{type: DataTypes.ARRAY},
-    chat:{type: DataTypes.ARRAY},
-    post:{type: DataTypes.ARRAY},
-    
-    
+    email: { type: DataTypes.STRING, required: true, unique: true },
+    phone: { type: DataTypes.STRING, required: true },
+    location: { type: DataTypes.STRING, required: true },
+    // ==========================
+    profilePicture: { type: DataTypes.STRING },
+    favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    recently: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    notification: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    chat: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    post: { type: DataTypes.ARRAY(DataTypes.JSON) },
 
-
-
-
-    role: { type: DataTypes.ENUM('user'), required: true, defaultValue: 'user'},
+    role: {
+      type: DataTypes.ENUM("user"),
+      required: true,
+      defaultValue: "user",
+    },
     token: {
       type: DataTypes.VIRTUAL,
       get() {
@@ -37,18 +36,17 @@ const clientModel = (sequelize, DataTypes) => {
       set(tokenObj) {
         let token = jwt.sign(tokenObj, SECRET);
         return token;
-      }
+      },
     },
     capabilities: {
       type: DataTypes.VIRTUAL,
       get() {
         const acl = {
-          user: ['read']
-         
+          user: ["read"],
         };
         return acl[this.role];
-      }
-    }
+      },
+    },
   });
 
   model.beforeCreate(async (user) => {
@@ -64,22 +62,26 @@ const clientModel = (sequelize, DataTypes) => {
   model.authenticateBasic = async function (username, password) {
     const user = await this.findOne({ where: { username } });
     const valid = await bcrypt.compare(password, user.password);
-    if (valid) { return user; }
-    throw new Error('Invalid User');
+    if (valid) {
+      return user;
+    }
+    throw new Error("Invalid User");
   };
 
   model.authenticateToken = async function (token) {
     try {
       const parsedToken = jwt.verify(token, SECRET);
-      const user = this.findOne({where: { username: parsedToken.username } });
-      if (user) { return user; }
+      const user = this.findOne({ where: { username: parsedToken.username } });
+      if (user) {
+        return user;
+      }
       throw new Error("User Not Found");
     } catch (e) {
-      throw new Error(e.message)
+      throw new Error(e.message);
     }
   };
 
   return model;
-}
+};
 
 module.exports = clientModel;

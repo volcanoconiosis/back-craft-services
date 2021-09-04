@@ -3,14 +3,15 @@
 const exprees = require("express");
 const errorHandler = require('./error-handler/500');
 const notFound = require('./error-handler/404');
+const routes=require('./auth/routes/routes');
 const app = exprees();
 
 app.use(exprees.json());
 app.use(exprees.urlencoded({ extended: true }));
-
+app.use(routes);
 // routes
 app.get("/", (req, res) => {
-  res.send("Welcome to home m3lem ashraf w3rd o5tee 🥶🔧👿");
+  res.send("Welcome to home  🥶🔧👿");
 });
 
 // start port
