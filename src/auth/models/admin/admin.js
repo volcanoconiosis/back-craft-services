@@ -1,23 +1,24 @@
-'use strict';
-require('dotenv').config();
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+"use strict";
+require("dotenv").config();
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
+const SECRET = process.env.SECRET || "avengers";
 
-const SECRET = process.env.SECRET || 'avengers';
-
-const workerModel = (sequelize, DataTypes) => {
-  const model = sequelize.define('admin', {
+const adminModel = (sequelize, DataTypes) => {
+  const model = sequelize.define("admin", {
     username: { type: DataTypes.STRING, required: true, unique: true },
-    firstName:{type: DataTypes.STRING, required: true},
-    lastName:{type: DataTypes.STRING, required: true},
+    firstName: { type: DataTypes.STRING, required: true },
+    lastName: { type: DataTypes.STRING, required: true },
     password: { type: DataTypes.STRING, required: true },
-    email:{type: DataTypes.STRING, required: true, unique: true},
-    phone:{type: DataTypes.STRING, required: true},
-    
+    email: { type: DataTypes.STRING, required: true, unique: true },
+    phone: { type: DataTypes.STRING, required: true },
 
-
-    role: { type: DataTypes.ENUM('admin'), required: true, defaultValue: 'admin'},
+    role: {
+      type: DataTypes.ENUM("admin"),
+      required: true,
+      defaultValue: "admin",
+    },
     token: {
       type: DataTypes.VIRTUAL,
       get() {
@@ -26,19 +27,17 @@ const workerModel = (sequelize, DataTypes) => {
       set(tokenObj) {
         let token = jwt.sign(tokenObj, SECRET);
         return token;
-      }
+      },
     },
     capabilities: {
       type: DataTypes.VIRTUAL,
       get() {
         const acl = {
-        
-          admin:['read', 'create', 'update', 'delete']
-         
+          admin: ["read", "create", "update", "delete"],
         };
         return acl[this.role];
-      }
-    }
+      },
+    },
   });
 
   model.beforeCreate(async (user) => {
@@ -54,22 +53,26 @@ const workerModel = (sequelize, DataTypes) => {
   model.authenticateBasic = async function (username, password) {
     const user = await this.findOne({ where: { username } });
     const valid = await bcrypt.compare(password, user.password);
-    if (valid) { return user; }
-    throw new Error('Invalid User');
+    if (valid) {
+      return user;
+    }
+    throw new Error("Invalid User");
   };
 
   model.authenticateToken = async function (token) {
     try {
       const parsedToken = jwt.verify(token, SECRET);
-      const user = this.findOne({where: { username: parsedToken.username } });
-      if (user) { return user; }
+      const user = this.findOne({ where: { username: parsedToken.username } });
+      if (user) {
+        return user;
+      }
       throw new Error("User Not Found");
     } catch (e) {
-      throw new Error(e.message)
+      throw new Error(e.message);
     }
   };
 
   return model;
-}
+};
 
-module.exports = workerModel;
+module.exports = adminModel;
