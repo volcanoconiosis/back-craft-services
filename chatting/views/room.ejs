@@ -8,7 +8,7 @@
   <script>
     const roomName = "<%= roomName %>"
   </script>
-  <script defer src="http://localhost:8000/socket.io/socket.io.js"></script>
+  <script defer src="http://localhost:3000/socket.io/socket.io.js"></script>
   <script defer src="script.js"></script>
   <style>
     body {
@@ -17,17 +17,21 @@
       display: flex;
       justify-content: center;
     }
+
     #message-container {
       width: 80%;
       max-width: 1200px;
     }
+
     #message-container div {
       background-color: #CCC;
       padding: 5px;
     }
+
     #message-container div:nth-child(2n) {
       background-color: #FFF;
     }
+
     #send-container {
       position: fixed;
       padding-bottom: 30px;
@@ -37,6 +41,7 @@
       width: 80%;
       display: flex;
     }
+
     #message-input {
       flex-grow: 1;
     }
