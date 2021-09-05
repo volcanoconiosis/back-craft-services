@@ -1,14 +1,17 @@
 "use strict";
-const { users } = require("../models/index");
+const { users } = require("../models/index2");
 class Collection {
   constructor(model) {
     this.model = model;
   }
 
   async create(obj) {
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    console.log(obj);
     try {
       return await this.model.create(obj);
     } catch (error) {
+      console.log(error);
       console.error("can not create a new record on ", this.model.name);
     }
   }

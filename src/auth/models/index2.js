@@ -34,6 +34,7 @@ const workerCollection = new Collection(workerModel);
 module.exports = {
   db: sequelize,
   users: userModel,
+  workerModel:workerModel,
   clientCollection: clientCollection,
   workerCollection: workerCollection,
 };
