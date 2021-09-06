@@ -4,26 +4,63 @@ const express = require("express");
 const Router = express.Router();
 const { users,
     workerCollection,
-    clientCollection } = require("../models/index");
+    clientCollection ,
+    adminCollection
+} = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
 
 
-Router.get('/clients',bearerAuth,permissions('readAll'),getClient) // for admin 
+Router.get('/clients', bearerAuth, permissions('readAll'), getClient)
+Router.get('/getWorkers', bearerAuth, permissions('readAll'), getWorkers)
+Router.delete("/deleteuser/:id", bearerAuth, permissions("delete"), deleteUsers)
+Router.get("/users", bearerAuth, permissions("readAll"), getAllUsers)
+Router.get("/support",bearerAuth,permissions("readAll"),getSupport)
 
 
-async function getClient(req,res){
-    let clients=await clientCollection.read()
+
+async function getClient(req, res) {
+    let clients = await clientCollection.read()
     console.log(clients);
-    // let obj ={
-    //     username: clients[0].dataValues.username,
-    //     firstName: clients[0].dataValues.firstName,
-    //     lastName: clients[0].dataValues.lastName,
-    //     password: clients[0].dataValues.password,
-    //     email: clients[0].dataValues.email,
-    //     phone: clients[0].dataValues.phone,
-    //     location: clients[0].dataValues.location
-    // }
+
     res.status(200).send(clients)
 }
-module.exports=Router
+
+
+
+
+
+async function getWorkers(req, res) {
+    let workers = await workerCollection.read()
+    res.status(200).send(workers)
+
+}
+
+
+async function deleteUsers(req, res) {
+    const id = req.params.id;
+    await users.destroy({ where: { id: id } });
+    const userRecords = await users.findAll({});
+    const list = await userRecords.map((user) => user);
+    res.send(list);
+}
+
+
+
+async function getAllUsers(req, res) {
+    const userRecords = await users.findAll({});
+    const list = userRecords.map((user) => user);
+    res.status(200).json(list);
+}
+
+
+async function getSupport(req,res){
+    const userRecords = await adminCollection.read();
+    const list = userRecords.map((user) => user);
+    res.status(200).json(list);
+}
+
+
+
+
+module.exports = Router
