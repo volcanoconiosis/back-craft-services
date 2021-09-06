@@ -17,13 +17,6 @@ const clientModel = (sequelize, DataTypes) => {
     store: { type: DataTypes.STRING },
     workType: { type: DataTypes.STRING },
     // ==========================
-    // profilePicture: { type: DataTypes.STRING },
-    // favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    // favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    // recently: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    // notification: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    // chat: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    // post: { type: DataTypes.ARRAY(DataTypes.JSON) },
 
     role: {
       type: DataTypes.ENUM("user", "admin", "worker"),

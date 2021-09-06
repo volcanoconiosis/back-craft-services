@@ -1,97 +1,24 @@
 "use strict";
-require("dotenv").config();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-
-const SECRET = process.env.SECRET || "avengers";
 
 const workerModel = (sequelize, DataTypes) => {
   const model = sequelize.define("worker", {
-    userId:{type: DataTypes.INTEGER },
-    username: { type: DataTypes.STRING, required: true, unique: true },
-    firstName: { type: DataTypes.STRING, required: true },
-    lastName: { type: DataTypes.STRING, required: true },
-    password: { type: DataTypes.STRING, required: true },
-    email: { type: DataTypes.STRING, required: true, unique: true },
-    phone: { type: DataTypes.STRING, required: true },
-    location: { type: DataTypes.STRING, required: true },
-    store: { type: DataTypes.STRING },
-    workType: { type: DataTypes.STRING, required: true },
-    // ==========================
     profilePicture: { type: DataTypes.STRING },
-    favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    recently: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete 
+    favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete
+    recently: { type: DataTypes.ARRAY(DataTypes.JSON) }, 
     // ===========================
     notification: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    status: { type: DataTypes.STRING },
-    scheduleWork: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    hisWork: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    offers: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    bio: { type: DataTypes.STRING },
-    tools: { type: DataTypes.ARRAY(DataTypes.JSON) },
+    status: { type: DataTypes.STRING }, 
+    scheduleWork: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete
+    hisWork: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete
+    offers: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete
+    bio: { type: DataTypes.STRING }, 
+    tools: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete
     reviews: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    chat: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    post: { type: DataTypes.ARRAY(DataTypes.JSON) },
-
-    role: {
-      type: DataTypes.ENUM("user"),
-      required: true,
-      defaultValue: "user",
-    },
-    token: {
-      type: DataTypes.VIRTUAL,
-      get() {
-        return jwt.sign({ username: this.username }, SECRET);
-      },
-      set(tokenObj) {
-        let token = jwt.sign(tokenObj, SECRET);
-        return token;
-      },
-    },
-    capabilities: {
-      type: DataTypes.VIRTUAL,
-      get() {
-        const acl = {
-          user: ["read"],
-        };
-        return acl[this.role];
-      },
-    },
+    chat: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete
+    post: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete 
+    userId:{type: DataTypes.INTEGER }
   });
-
-  model.beforeCreate(async (user) => {
-    let hashedPass = await bcrypt.hash(user.password, 10);
-    user.password = hashedPass;
-  });
-
-  model.beforeUpdate(async (user) => {
-    let hashedPass = await bcrypt.hash(user.password, 10);
-    user.password = hashedPass;
-  });
-
-  model.authenticateBasic = async function (username, password) {
-    const user = await this.findOne({ where: { username } });
-    const valid = await bcrypt.compare(password, user.password);
-    if (valid) {
-      return user;
-    }
-    throw new Error("Invalid User");
-  };
-
-  model.authenticateToken = async function (token) {
-    try {
-      const parsedToken = jwt.verify(token, SECRET);
-      const user = this.findOne({ where: { username: parsedToken.username } });
-      if (user) {
-        return user;
-      }
-      throw new Error("User Not Found");
-    } catch (e) {
-      throw new Error(e.message);
-    }
-  };
-
   return model;
 };
 
