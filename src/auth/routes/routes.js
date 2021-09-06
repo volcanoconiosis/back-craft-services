@@ -3,7 +3,7 @@
 const express = require("express");
 const authRouter = express.Router();
 
-const { users } = require("../models/index2");
+const { users } = require("../models/index");
 const basicAuth = require("../middlewear/basicAuth");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
