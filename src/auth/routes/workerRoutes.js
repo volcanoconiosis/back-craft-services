@@ -1,4 +1,5 @@
 "use strict";
+require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
 const { workerCollection, workerModel, users } = require("../models/index2");
@@ -40,34 +41,45 @@ async function workerUpdate(req, res) {
 }
 // delete one from favorite worker
 async function deleteFavoriteWorker(req, res) {
-  let id = req.userId;
+  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findAll({ where: { id: id } });
-  let item = data[0].dataValues.favoriteWorker;
+  let data = await workerModel.findOne({ where: { id: id } });
+  console.log(data);
+  let item = data.dataValues.favoriteWorker;
   item.splice(arrayIndex, 1);
-  //   console.log(data[0].dataValues.favoriteWorker);
-  res.send(data);
+  let worker = await workerCollection.update(id, { favoriteWorker: item });
+  console.log(item);
+  res.send(worker);
 }
 // post one from favorite worker
 async function postFavoriteWorker(req, res) {
-  let id = Number(req.params.id);
-  let obj = req.body;
-  let data = await workerModel.findAll({ where: { id: id } });
-  data[0].dataValues.favoriteWorker.push(obj);
-  console.log();
-//   data.save();
+  let update = req.body;
+  let id = req.params.id;
+  let data = await workerModel.findOne({ where: { id: id } });
+  console.log(data);
+  let item = data.dataValues.favoriteWorker;
+  let arres = [...item, update];
+  console.log(arres);
+  let worker = await workerCollection.update(id, { favoriteWorker: arres });
 
-  res.send(data);
+  res.send(worker);
 }
+
 // delete one from favorite image worker
 async function deleteFavoriteImgWorker(req, res) {
   let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findAll({ where: { id: id } });
-  let item = data[0].dataValues.favoriteImg;
-  item.splice(arrayIndex, 1);
+  let data = await workerModel.findOne({ where: { id: id } });
+  console.log(data);
+  let item = data.dataValues.favoriteWorker;
+  let newArray = item.map((el, idx) => {
+    if (idx !== arrayIndex) {
+      return el;
+    }
+  });
+  let worker = await workerCollection.update(id, { favoriteWorker: newArray });
   console.log(item);
-  res.send(data);
+  res.send(worker);
 }
 
 module.exports = Router;
