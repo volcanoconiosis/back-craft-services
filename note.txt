@@ -1,0 +1,17 @@
+worker data
+----------------
+"profilePicture": ,
+"favoriteWorker": ,
+"favoriteImg": ,
+"recently":, 
+"notification": ,
+"status": , 
+"scheduleWork": ,
+"hisWork": ,
+"offers": ,
+"bio": , 
+"tools": ,
+"reviews": ,
+"chat": ,
+"post": ,
+"userId":

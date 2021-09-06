@@ -39,7 +39,7 @@ const clientModel = (sequelize, DataTypes) => {
       get() {
         const acl = {
           user: ["read","readUser"],
-          worker:["read"],
+          worker:["read","readWorker"],
           admin: ['read', 'create', 'update', 'delete','readAll']
         };
         return acl[this.role];
