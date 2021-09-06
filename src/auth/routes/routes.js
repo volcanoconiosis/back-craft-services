@@ -46,28 +46,7 @@ authRouter.delete("/deleteaccount", bearerAuth, async (req, res) => {
   res.send("your account deleted sucessfully");
 });
 
-authRouter.delete(
-  "/deleteuser/:id",
-  bearerAuth,
-  permissions("delete"),
-  async (req, res) => {
-    const id = req.params.id;
-    await users.destroy({ where: { id: id } });
-    const userRecords = await users.findAll({});
-    const list = await userRecords.map((user) => user);
-    res.send(list);
-  }
-);
 
-authRouter.get(
-  "/users",
-  bearerAuth,
-  permissions("readAll"),
-  async (req, res, next) => {
-    const userRecords = await users.findAll({});
-    const list = userRecords.map((user) => user);
-    res.status(200).json(list);
-  }
-);
+
 
 module.exports = authRouter;

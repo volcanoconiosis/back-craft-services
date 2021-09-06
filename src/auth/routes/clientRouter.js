@@ -2,9 +2,10 @@
 require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
-const { clientCollection, clientModel } = require("../models/index");
+const { clientCollection, clientModel, adminModel, adminCollection } = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
+
 
 // ====================== main Routes ================================
 
@@ -31,6 +32,7 @@ Router.delete("/client/chat/:id", bearerAuth, deleteChat);
 Router.post("/client/post/:id", bearerAuth, addPost);
 Router.delete("/client/post/:id", bearerAuth, deletePost);
 
+Router.post("/support",addSupport)
 
 
 //  =========== start main function ===============
@@ -221,6 +223,26 @@ async function addPost(req, res) {
 
 
 //=========== end  for array Post 
+//=================================================================
+//=========== start for add support
+
+async function addSupport(req, res) {
+  let newsupport = req.body;
+  // let data = await adminModel.findAll();
+  // let item = data[0].dataValues.support;
+  // let newArray = [...item, newsupport];
+  //{ support: newsupport }
+  let client = await adminModel.create(newsupport);
+  res.send(client);
+
+
+}
+
+
+
+
+
+
 
 
 module.exports=Router

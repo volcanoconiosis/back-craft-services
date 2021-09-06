@@ -4,8 +4,10 @@ const { Sequelize, DataTypes } = require("sequelize");
 const DATABASE_URL = process.env.DATABASE_URL;
 const client = require("./client/client");
 const worker = require("./worker/worker");
+const admin=require('./admin/admin')
 const user = require("./users");
 const Collection = require("./dataCollection");
+
 
 let sequelizeOptions = {
   dialectOptions: {
@@ -21,6 +23,7 @@ const sequelize = new Sequelize(DATABASE_URL, {});
 const userModel = user(sequelize, DataTypes);
 const clientModel = client(sequelize, DataTypes);
 const workerModel = worker(sequelize, DataTypes);
+const adminModel = admin(sequelize, DataTypes);
 
 userModel.hasMany(clientModel, { foreignKey: "userId", sourceKey: "id" });
 clientModel.belongsTo(userModel, { foreignKey: "userId", targetKey: "id" });
@@ -28,8 +31,12 @@ clientModel.belongsTo(userModel, { foreignKey: "userId", targetKey: "id" });
 userModel.hasMany(workerModel, { foreignKey: "userId", sourceKey: "id" });
 workerModel.belongsTo(userModel, { foreignKey: "userId", targetKey: "id" });
 
+userModel.hasMany(adminModel, { foreignKey: "userId", sourceKey: "id" });
+adminModel.belongsTo(userModel, { foreignKey: "userId", targetKey: "id" });
+
 const clientCollection = new Collection(clientModel);
 const workerCollection = new Collection(workerModel);
+const adminCollection = new Collection(adminModel);
 
 module.exports = {
   db: sequelize,
@@ -37,5 +44,7 @@ module.exports = {
   workerModel:workerModel,
   clientCollection: clientCollection,
   workerCollection: workerCollection,
-  clientModel:clientModel
+  clientModel:clientModel,
+  adminModel:adminModel,
+  adminCollection:adminCollection
 };
