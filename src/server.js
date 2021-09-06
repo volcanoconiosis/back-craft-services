@@ -5,12 +5,16 @@ const errorHandler = require('./error-handler/500');
 const notFound = require('./error-handler/404');
 const routes=require('./auth/routes/routes');
 const workerRoutes=require('./auth/routes/workerRoutes');
+const clientRoutes=require('../src/auth/routes/clientRouter')
+const adminRoutes=require('../src/auth/routes/adminRoutes')
 const app = exprees();
 
 app.use(exprees.json());
 app.use(exprees.urlencoded({ extended: true }));
 app.use(routes);
 app.use(workerRoutes);
+app.use(clientRoutes);
+app.use(adminRoutes);
 // routes
 app.get("/", (req, res) => {
   res.send("Welcome to home  🥶🔧👿");
