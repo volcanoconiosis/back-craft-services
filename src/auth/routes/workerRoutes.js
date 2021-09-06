@@ -2,7 +2,7 @@
 require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
-const { workerCollection, workerModel, users } = require("../models/index2");
+const { workerCollection, workerModel } = require("../models/index");
 const basicAuth = require("../middlewear/basicAuth");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
@@ -29,6 +29,7 @@ async function data(req, res) {
   let worker = await workerCollection.create(update);
   res.status(200).json(worker);
 }
+
 // update any
 async function workerUpdate(req, res) {
   let update = req.body;
