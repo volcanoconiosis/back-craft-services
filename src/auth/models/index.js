@@ -37,4 +37,5 @@ module.exports = {
   workerModel:workerModel,
   clientCollection: clientCollection,
   workerCollection: workerCollection,
+  clientModel:clientModel
 };

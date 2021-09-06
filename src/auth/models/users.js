@@ -14,6 +14,7 @@ const clientModel = (sequelize, DataTypes) => {
     email: { type: DataTypes.STRING, required: true, unique: true },
     phone: { type: DataTypes.STRING, required: true },
     location: { type: DataTypes.STRING, required: true },
+    // ============ extra worker
     store: { type: DataTypes.STRING },
     workType: { type: DataTypes.STRING },
     // ==========================
@@ -37,7 +38,7 @@ const clientModel = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const acl = {
-          user: ["read"],
+          user: ["read","readUser"],
           worker:["read","readWorker"],
           admin: ['read', 'create', 'update', 'delete','readAll']
         };
@@ -57,7 +58,7 @@ const clientModel = (sequelize, DataTypes) => {
   });
 
   model.authenticateBasic = async function (username, password) {
-    const user = await this.findOne({ where: { username } });
+    const user = await this.findOne({ where: { username }});
     const valid = await bcrypt.compare(password, user.password);
     if (valid) {
       return user;
