@@ -25,7 +25,7 @@ let users = {
       }
   };
 
-  describe('sign up as admin ', () => {
+  xdescribe('sign up as admin ', () => {
 
     Object.keys(users).forEach(userType => {
   

@@ -59,7 +59,7 @@ beforeAll(async () => {
 
 
 
-describe('Auth Router', () => {
+xdescribe('Auth Router', () => {
 
   Object.keys(users).forEach(userType => {
 
@@ -115,7 +115,7 @@ describe('Auth Router', () => {
   });
 
 });
-describe('bad logins', () => {
+xdescribe('bad logins', () => {
     it('basic fails with known user and wrong password ', async () => {
 
       const response = await mockRequest.post('/signin')
