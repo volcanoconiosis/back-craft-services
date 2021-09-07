@@ -2,13 +2,13 @@
 
 const clientModel = (sequelize, DataTypes) => {
   const model = sequelize.define("client", {
-    favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    recently: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    notification: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    chat: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    post: { type: DataTypes.ARRAY(DataTypes.JSON) },
-    userId:{type: DataTypes.INTEGER }
+    favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON), defaultValue: [] },
+    favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] },
+    recently: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] },
+    notification: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] },
+    chat: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] },
+    post: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] },
+    userId: { type: DataTypes.INTEGER },
   });
   return model;
 };

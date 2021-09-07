@@ -2,7 +2,6 @@
 
 const express = require("express");
 const authRouter = express.Router();
-
 const { users } = require("../models/index");
 const basicAuth = require("../middlewear/basicAuth");
 const bearerAuth = require("../middlewear/bearerAuth");
@@ -21,6 +20,7 @@ authRouter.post("/signup", async (req, res, next) => {
     next(e.message);
   }
 });
+
 
 
 authRouter.post("/signin", basicAuth, (req, res, next) => {
@@ -46,20 +46,13 @@ authRouter.delete("/deleteaccount", bearerAuth, async (req, res) => {
   res.send("your account deleted sucessfully");
 });
 
-
-//  ====== get workers to display them in the home page or sevice page 
+//  ====== get workers to display them in the home page or sevice page
 authRouter.get("/getAllWorkers", async (req, res) => {
-  let user= await users.findAll();
-  console.log(user);
-  let newArr=user.filter(value=>{
-    if(value.dataValues.role=='worker') return value
-  })
-  console.log(newArr);
+  let user = await users.findAll();
+  let newArr = user.filter((value) => {
+    if (value.dataValues.role == "worker") return value;
+  });
   res.status(200).send(newArr);
 });
-
-
-
-
 
 module.exports = authRouter;

@@ -9,15 +9,19 @@ const clientModel = (sequelize, DataTypes) => {
   const model = sequelize.define("users", {
     username: { type: DataTypes.STRING, required: true, unique: true },
     firstName: { type: DataTypes.STRING, required: true },
-    profilePicture: { type: DataTypes.STRING },
+    profilePicture: {
+      type: DataTypes.STRING,
+      defaultValue:
+        "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg",
+    },
     lastName: { type: DataTypes.STRING, required: true },
     password: { type: DataTypes.STRING, required: true },
     email: { type: DataTypes.STRING, required: true, unique: true },
     phone: { type: DataTypes.STRING, required: true },
     location: { type: DataTypes.STRING, required: true },
     // ============ extra worker
-    store: { type: DataTypes.STRING },
-    workType: { type: DataTypes.STRING },
+    store: { type: DataTypes.STRING ,defaultValue:" "},
+    workType: { type: DataTypes.STRING,defaultValue:" " },
     // ==========================
 
     role: {
@@ -39,9 +43,9 @@ const clientModel = (sequelize, DataTypes) => {
       type: DataTypes.VIRTUAL,
       get() {
         const acl = {
-          user: ["read","readUser"],
-          worker:["read","readWorker"],
-          admin: ['read', 'create', 'update', 'delete','readAll']
+          user: ["read", "readUser"],
+          worker: ["read", "readWorker"],
+          admin: ["read", "create", "update", "delete", "readAll"],
         };
         return acl[this.role];
       },
@@ -59,7 +63,7 @@ const clientModel = (sequelize, DataTypes) => {
   });
 
   model.authenticateBasic = async function (username, password) {
-    const user = await this.findOne({ where: { username }});
+    const user = await this.findOne({ where: { username } });
     const valid = await bcrypt.compare(password, user.password);
     if (valid) {
       return user;

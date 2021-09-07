@@ -21,7 +21,6 @@ Router.get("/support",bearerAuth,permissions("readAll"),getSupport)
 
 async function getClient(req, res) {
     let clients = await clientCollection.read()
-    console.log(clients);
 
     res.status(200).send(clients)
 }

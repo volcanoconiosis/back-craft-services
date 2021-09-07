@@ -37,6 +37,7 @@ adminModel.belongsTo(userModel, { foreignKey: "userId", targetKey: "id" });
 const clientCollection = new Collection(clientModel);
 const workerCollection = new Collection(workerModel);
 const adminCollection = new Collection(adminModel);
+const usersCollection = new Collection(userModel);
 
 module.exports = {
   db: sequelize,
@@ -46,5 +47,6 @@ module.exports = {
   workerCollection: workerCollection,
   clientModel:clientModel,
   adminModel:adminModel,
-  adminCollection:adminCollection
+  adminCollection:adminCollection,
+  usersCollection:usersCollection
 };
