@@ -2,14 +2,15 @@
 require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
-const { workerCollection, workerModel } = require("../models/index");
-const basicAuth = require("../middlewear/basicAuth");
+const { workerCollection, workerModel,users } = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
 
 // >>>>>>>>>>>>>>>>>>>> worker end-points
 
 Router.get("/worker", bearerAuth,permissions('readWorker'),getData);
+Router.get("/getCurrentWorker", bearerAuth, getCurrentData)
+Router.get("/workerForClient/:id", bearerAuth,getDataForClient);
 Router.post("/worker", bearerAuth, data);
 Router.put("/worker/updateany/:id", bearerAuth, workerUpdate);
 Router.delete("/worker/fav/:id", bearerAuth, deleteFavoriteWorker);
@@ -43,6 +44,36 @@ async function getData(req, res){
   let worker = await workerCollection.read(id);
   res.send(worker)
 }
+
+// =========== start the data that client will see it 
+async function getDataForClient(req, res){
+  let id = req.params.id
+  let worker = await workerCollection.read(id);
+  console.log( worker[0].dataValues);
+  let obj ={
+    status: worker[0].dataValues.status, 
+scheduleWork:worker[0].dataValues.scheduleWork ,
+hisWork:worker[0].dataValues.hisWork ,
+offers:worker[0].dataValues.offers ,
+bio: worker[0].dataValues.bio, 
+tools:worker[0].dataValues.tools ,
+reviews: worker[0].dataValues.reviews,
+  }
+  res.send(obj)
+}
+// =========== end 
+
+// ======== start get worker from user schema========
+async function getCurrentData(req,res){
+  let id=req.userId
+  let user= await users.findOne({where:{id:id}});
+  res.status(200).send(user);
+}
+
+// ========== end ==========
+
+
+
 // post data for worker
 async function data(req, res) {
   let update = req.body;

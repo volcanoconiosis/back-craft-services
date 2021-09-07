@@ -6,7 +6,7 @@ const authRouter = express.Router();
 const { users } = require("../models/index");
 const basicAuth = require("../middlewear/basicAuth");
 const bearerAuth = require("../middlewear/bearerAuth");
-const permissions = require("../middlewear/acl");
+
 
 authRouter.post("/signup", async (req, res, next) => {
   try {
@@ -45,6 +45,19 @@ authRouter.delete("/deleteaccount", bearerAuth, async (req, res) => {
   await users.destroy({ where: { id: id } });
   res.send("your account deleted sucessfully");
 });
+
+
+//  ====== get workers to display them in the home page or sevice page 
+authRouter.get("/getAllWorkers", async (req, res) => {
+  let user= await users.findAll();
+  console.log(user);
+  let newArr=user.filter(value=>{
+    if(value.dataValues.role=='worker') return value
+  })
+  console.log(newArr);
+  res.status(200).send(newArr);
+});
+
 
 
 

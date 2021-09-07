@@ -2,13 +2,14 @@
 require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
-const { clientCollection, clientModel, adminModel, adminCollection } = require("../models/index");
+const { clientCollection, clientModel, adminModel,
+users } = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
 
 
 // ====================== main Routes ================================
-
+Router.get("/getCurrentUser", bearerAuth, getCurrentData)
 Router.put("/client/updateany/:id", bearerAuth, clientUpdate);
 Router.post("/client", bearerAuth, createData);
 Router.get('/clientData',bearerAuth,permissions('readUser'), getData)
@@ -36,6 +37,15 @@ Router.post("/support",addSupport)
 
 
 //  =========== start main function ===============
+
+
+
+async function getCurrentData(req,res){
+  let id=req.userId
+  let user= await users.findOne({where:{id:id}});
+  res.status(200).send(user);
+}
+
 
 async function getData(req,res){
     let id=req.userId
