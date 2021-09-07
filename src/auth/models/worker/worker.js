@@ -2,7 +2,7 @@
 
 const workerModel = (sequelize, DataTypes) => {
   const model = sequelize.define("worker", {
-    profilePicture: { type: DataTypes.STRING },
+    
     favoriteWorker: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete 
     favoriteImg: { type: DataTypes.ARRAY(DataTypes.JSON) }, // delete
     recently: { type: DataTypes.ARRAY(DataTypes.JSON) }, 
