@@ -1,5 +1,6 @@
 {
     "terminal.integrated.commandsToSkipShell": [
         "vscode-cmd-aliases.execute"
-    ]
+    ],
+    "compile-hero.disable-compile-files-on-did-save-code": true
 }

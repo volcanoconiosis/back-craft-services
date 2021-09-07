@@ -32,6 +32,10 @@ const start = (port) => {
   });
 };
 
+// bad router
+app.get('/badmethod',(req,res)=>{
+  throw new Error('Error');
+})
 // use middleware
 app.use(notFound);
 app.use(errorHandler);
