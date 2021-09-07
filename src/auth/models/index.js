@@ -48,5 +48,6 @@ module.exports = {
   clientModel:clientModel,
   adminModel:adminModel,
   adminCollection:adminCollection,
-  usersCollection:usersCollection
+  usersCollection:usersCollection,
+  userModel:userModel
 };
