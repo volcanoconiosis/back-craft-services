@@ -36,7 +36,7 @@ describe('worker routes ', () => {
   
       describe(`${userType} users`, () => {
   
-        it('can create admin', async () => {
+        it('can create worker', async () => {
   
           const response = await mockRequest.post('/signup').send(users[userType]);
           const userObject = response.body;
@@ -105,14 +105,14 @@ describe('worker routes ', () => {
             expect(bearerResponse.status).toBe(200)
         })
 
-        it('get worker For Client by id', async()=>{
+        xit('get worker For Client by id', async()=>{
             const response = await mockRequest.post('/signin')
             .auth(users[userType].username, users[userType].password);
   
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .get('/workerForClient/2')
+            .get('/workerForClient/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -138,7 +138,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .put('/worker/updateany/2')
+            .put('/worker/updateany/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -151,7 +151,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/fav/2')
+            .delete('/worker/fav/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -164,7 +164,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/fav/2')
+            .post('/worker/fav/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -177,7 +177,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/favimg/2')
+            .delete('/worker/favimg/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -190,7 +190,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/favimg/2')
+            .post('/worker/favimg/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -203,7 +203,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/recently/2')
+            .delete('/worker/recently/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -216,7 +216,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/recently/2')
+            .post('/worker/recently/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -229,7 +229,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/notification/2')
+            .delete('/worker/notification/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -242,7 +242,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/notification/2')
+            .post('/worker/notification/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -255,7 +255,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/schedulework/2')
+            .delete('/worker/schedulework/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -268,7 +268,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/schedulework/2')
+            .post('/worker/schedulework/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -281,7 +281,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/hiswork/2')
+            .delete('/worker/hiswork/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -294,7 +294,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/hiswork/2')
+            .post('/worker/hiswork/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -307,7 +307,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/offers/2')
+            .delete('/worker/offers/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -320,7 +320,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/offers/2')
+            .post('/worker/offers/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -333,7 +333,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/tools/2')
+            .delete('/worker/tools/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -346,7 +346,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/tools/2')
+            .post('/worker/tools/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -359,7 +359,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/reviews/2')
+            .delete('/worker/reviews/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -372,7 +372,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/reviews/2')
+            .post('/worker/reviews/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -385,7 +385,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/chat/2')
+            .delete('/worker/chat/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -398,7 +398,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/chat/2')
+            .post('/worker/chat/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -411,7 +411,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .delete('/worker/post/2')
+            .delete('/worker/post/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
@@ -424,7 +424,7 @@ describe('worker routes ', () => {
           const token = response.body.token;
 
           const bearerResponse = await mockRequest
-            .post('/worker/post/2')
+            .post('/worker/post/1')
             .set('Authorization', `Bearer ${token}`)
             
             expect(bearerResponse.status).toBe(200)
