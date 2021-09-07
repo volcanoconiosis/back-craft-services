@@ -3,7 +3,7 @@ const http = require('http').createServer(app)
 const io = require('socket.io')(http)
 const uuid = require('uuid').v4;
 
-const msgQueue = {
+const msgQueue= {
     chores : {}
 }
 
@@ -18,6 +18,16 @@ messanger.on('connection', socket=> {
         msgQueue.chores[id] = payload;
          target= msgQueue.chores[id][2]
         socket.emit('added', payload); // telling the parent a task was added
+        messanger.emit('chore', {id: id, payload: msgQueue.chores[id][0] })
+        let result ={
+            event:'chore',
+            payload:payload
+
+        }
+
+        console.log(result)
+        
+
     });
 
     socket.on('sendWorkerID',(workerID,clientID)=>{
@@ -26,6 +36,8 @@ messanger.on('connection', socket=> {
                 Object.keys(msgQueue.chores).forEach(id=> {
                     if(msgQueue.chores[id].includes(workerID) && msgQueue.chores[id].includes(clientID)){
                         socket.emit('chore', {id: id, payload: msgQueue.chores[id][0] })
+                        // let result1= payload
+                        // console.log('Event', result1)
                     }  
                 });
             });
@@ -37,12 +49,18 @@ messanger.on('connection', socket=> {
         const id = uuid();
         msgQueue.chores[id] = payload;
          target2= msgQueue.chores[id][2]
-        socket.emit('added_2', payload); // telling the parent a task was added
+         socket.emit('added_2', payload); // telling the parent a task was added
+         messanger.emit('chore_2', {id: id, payload: msgQueue.chores[id][0] })
+         let result=payload
+         console.log(result);
+
     });
    
     socket.on('sendClientID',(clientID,workerID)=>{
+
         if (clientID==target2) {
             socket.on('get_all_2', ()=> {
+
                 Object.keys(msgQueue.chores).forEach(id=> {
                     if(msgQueue.chores[id].includes(clientID) && msgQueue.chores[id].includes(workerID)){
                         socket.emit('chore_2', {id: id, payload: msgQueue.chores[id][0] })
