@@ -6,8 +6,6 @@ class Collection {
   }
 
   async create(obj) {
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    console.log(obj);
     try {
       return await this.model.create(obj);
     } catch (error) {

@@ -57,7 +57,6 @@ async function getData(req,res){
 async function createData(req, res) {
     let newData = req.body;
     newData.userId = req.userId;
-    console.log(newData);
     let client = await clientCollection.create(newData);
     res.status(200).json(client);
   }
