@@ -11,6 +11,11 @@ const myID = process.argv[3];
 const hisID = process.argv[4];
 
 let msgdata=[value,myID,hisID]
+// socket.on('worker_msg', message=>{
+//     console.log()
+
+// })
+
 socket.emit('responsMsg', msgdata);
 
 socket.on('added_2', payload=> {
