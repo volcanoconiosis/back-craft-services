@@ -15,12 +15,12 @@ beforeAll(async () => {
   });
   let users = {
     user: { 
-      username: "ahmad",
+      username: "ahmad5540",
       firstName: "user",
       profilePicture:"ss",
       lastName:"user",
       password: 'user',
-      email: 'ahmad@user.com',
+      email: 'ahmad9820@user.com',
       phone: '0789',
       location: 'zqq',
       store: ' ',
@@ -31,7 +31,7 @@ beforeAll(async () => {
   };
 
 
-xdescribe('for routes.js', () => {
+describe('for routes.js', () => {
     Object.keys(users).forEach(userType => {
   
         describe(`${userType} users`, () => {
