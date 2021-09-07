@@ -15,3 +15,16 @@ worker data
 "chat": ,
 "post": ,
 "userId":
+
+signup data 
+---------------
+username: " ",
+firstName: "",
+profilePicture:"",
+lastName:"",
+password: '',
+email: '',
+phone: '',
+location: '',
+store: '',
+workType: ''
