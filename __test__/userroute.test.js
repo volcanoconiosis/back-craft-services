@@ -16,12 +16,12 @@ beforeAll(async () => {
 
 let users={
     worker: { 
-        username: "worker22",
+        username: "worker35640",
         firstName: "worker",
         profilePicture:"ss",
         lastName:"worker",
         password: 'worker',
-        email: 'worker22@worker.com',
+        email: 'worker34840@worker.com',
         phone: '0789',
         location: 'zqq',
         store: ' ',
@@ -37,7 +37,7 @@ describe('worker routes ', () => {
   
       describe(`${userType} users`, () => {
   
-        xit('can create admin', async () => {
+        it('can create admin', async () => {
   
           const response = await mockRequest.post('/signup').send(users[userType]);
           const userObject = response.body;

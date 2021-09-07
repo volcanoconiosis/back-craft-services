@@ -11,12 +11,12 @@ const mockRequest = supertest(app);
 
 let users = {
   user: { 
-    username: "userTest",
+    username: "userTest1245456",
     firstName: "user",
     profilePicture:"ss",
     lastName:"user",
     password: 'user',
-    email: 'userTest@user.com',
+    email: 'userTest1244665@user.com',
     phone: '0789',
     location: 'zqq',
     store: ' ',
@@ -36,7 +36,7 @@ describe('Auth Router', () => {
   
       describe(`${userType} users`, () => {
   
-        xit('can create one', async () => {
+        it('can create one', async () => {
   
           const response = await mockRequest.post('/signup').send(users[userType]);
           const userObject = response.body;

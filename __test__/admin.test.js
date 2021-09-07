@@ -11,12 +11,12 @@ beforeAll(async () => {
 
 let users = {
     admin: { 
-          username: "adminTest",
+          username: "adminTest155541",
           firstName: "admin",
           profilePicture:"ss",
           lastName:"admin",
           password: 'admin',
-          email: 'adminTest@admin.com',
+          email: 'adminTest236561@admin.com',
           phone: '0789',
           location: 'zqq',
           store: ' ',
@@ -25,13 +25,13 @@ let users = {
       }
   };
 
-  xdescribe('sign up as admin ', () => {
+  describe('sign up as admin ', () => {
 
     Object.keys(users).forEach(userType => {
   
       describe(`${userType} users`, () => {
   
-        xit('can create admin', async () => {
+        it('can create admin', async () => {
   
           const response = await mockRequest.post('/signup').send(users[userType]);
           const userObject = response.body;

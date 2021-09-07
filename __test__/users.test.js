@@ -11,12 +11,12 @@ const mockRequest = supertest(app);
 
 let users = {
   admin: { 
-        username: "admin2",
+        username: "admin544",
         firstName: "admin",
         profilePicture:"ss",
         lastName:"admin",
         password: 'admin',
-        email: 'admin2@admin.com',
+        email: 'admin44554@admin.com',
         phone: '0789',
         location: 'zqq',
         store: ' ',
@@ -25,12 +25,12 @@ let users = {
     },
 
   worker: { 
-        username: "worker2",
+        username: "worker4454",
         firstName: "worker",
         profilePicture:"ss",
         lastName:"worker",
         password: 'worker',
-        email: 'worker2@worker.com',
+        email: 'worker5564@worker.com',
         phone: '0789',
         location: 'zqq',
         store: ' ',
@@ -38,12 +38,12 @@ let users = {
         role:'worker' 
     },
   user: { 
-    username: "user2",
+    username: "user4154",
     firstName: "user",
     profilePicture:"ss",
     lastName:"user",
     password: 'user',
-    email: 'user2@user.com',
+    email: 'user477@user.com',
     phone: '0789',
     location: 'zqq',
     store: ' ',
@@ -59,13 +59,13 @@ beforeAll(async () => {
 
 
 
-xdescribe('Auth Router', () => {
+describe('Auth Router', () => {
 
   Object.keys(users).forEach(userType => {
 
     describe(`${userType} users`, () => {
 
-      xit('can create one', async () => {
+      it('can create one', async () => {
 
         const response = await mockRequest.post('/signup').send(users[userType]);
         const userObject = response.body;
@@ -115,7 +115,7 @@ xdescribe('Auth Router', () => {
   });
 
 });
-xdescribe('bad logins', () => {
+describe('bad logins', () => {
     it('basic fails with known user and wrong password ', async () => {
 
       const response = await mockRequest.post('/signin')
