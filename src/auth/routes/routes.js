@@ -5,23 +5,30 @@ const authRouter = express.Router();
 const { users } = require("../models/index");
 const basicAuth = require("../middlewear/basicAuth");
 const bearerAuth = require("../middlewear/bearerAuth");
-
+const {workerCollection,clientCollection}=require("../models/index")
 
 authRouter.post("/signup", async (req, res, next) => {
   try {
-    console.log("from signup ->>>>>>>>>>>>>>>>>>>>>>>>", users);
     let userRecord = await users.create(req.body);
     const output = {
       user: userRecord,
       token: userRecord.token,
     };
+    console.log(userRecord);
+    if(userRecord.role==='worker'){
+      let update = req.body;
+      update.userId =userRecord.id;
+      await workerCollection.create(update);
+    }else if(userRecord.role==='user'){
+      let update = req.body;
+      update.userId =userRecord.id;
+      await clientCollection.create(update);
+    }
     res.status(201).json(output);
   } catch (e) {
     next(e.message);
   }
 });
-
-
 
 authRouter.post("/signin", basicAuth, (req, res, next) => {
   const user = {
