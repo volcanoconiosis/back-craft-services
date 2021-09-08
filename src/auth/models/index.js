@@ -4,10 +4,9 @@ const { Sequelize, DataTypes } = require("sequelize");
 const DATABASE_URL = process.env.DATABASE_URL;
 const client = require("./client/client");
 const worker = require("./worker/worker");
-const admin=require('./admin/admin')
+const admin = require("./admin/admin");
 const user = require("./users");
 const Collection = require("./dataCollection");
-
 
 let sequelizeOptions = {
   dialectOptions: {
@@ -18,7 +17,7 @@ let sequelizeOptions = {
   },
 };
 
-const sequelize = new Sequelize(DATABASE_URL, {sequelizeOptions});
+const sequelize = new Sequelize(DATABASE_URL, sequelizeOptions);
 
 const userModel = user(sequelize, DataTypes);
 const clientModel = client(sequelize, DataTypes);
@@ -42,12 +41,12 @@ const usersCollection = new Collection(userModel);
 module.exports = {
   db: sequelize,
   users: userModel,
-  workerModel:workerModel,
+  workerModel: workerModel,
   clientCollection: clientCollection,
   workerCollection: workerCollection,
-  clientModel:clientModel,
-  adminModel:adminModel,
-  adminCollection:adminCollection,
-  usersCollection:usersCollection,
-  userModel:userModel
+  clientModel: clientModel,
+  adminModel: adminModel,
+  adminCollection: adminCollection,
+  usersCollection: usersCollection,
+  userModel: userModel,
 };
