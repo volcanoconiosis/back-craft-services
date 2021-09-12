@@ -12,7 +12,7 @@ Router.get("/worker", bearerAuth, permissions("readWorker"), getData);
 Router.get("/getCurrentWorker", bearerAuth, getCurrentData);
 Router.get("/workerForClient/:id", bearerAuth, getDataForClient);
 Router.post("/worker", bearerAuth, data);
-Router.put("/worker/updateany/:id", bearerAuth, workerUpdate);// RETURN BACK TO THIS FUN  
+Router.put("/worker/updateany", bearerAuth, workerUpdate);// RETURN BACK TO THIS FUN  
 Router.delete("/worker/fav", bearerAuth, deleteFavoriteWorker);
 Router.post("/worker/fav", bearerAuth, postFavoriteWorker);
 Router.delete("/worker/favimg", bearerAuth, deleteFavoriteImgWorker);
@@ -82,10 +82,10 @@ async function data(req, res) {
 // update any
 async function workerUpdate(req, res) {
   let update = req.body;
-  update.userId = req.userId;
-  let id = req.params.id;
-  let worker = await workerCollection.update(id, update);
-  res.status(200).json(worker);
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
+  let worker = await workerCollection.update(id,update);
+  res.send(worker);
 }
 // delete one from favorite worker
 async function deleteFavoriteWorker(req, res) {
@@ -107,6 +107,7 @@ async function postFavoriteWorker(req, res) {
   let worker = await workerCollection.update(id, { favoriteWorker: arres });
   res.send(worker);
 }
+
 // ----------------------------------------------------------------------------
 
 // post one from favorite image worker
