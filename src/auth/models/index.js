@@ -17,7 +17,7 @@ let sequelizeOptions = {
   },
 };
 
-const sequelize = new Sequelize(DATABASE_URL, {sequelizeOptions});
+const sequelize = new Sequelize(DATABASE_URL, sequelizeOptions);
 
 const userModel = user(sequelize, DataTypes);
 const clientModel = client(sequelize, DataTypes);
