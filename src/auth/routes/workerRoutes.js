@@ -12,29 +12,29 @@ Router.get("/worker", bearerAuth, permissions("readWorker"), getData);
 Router.get("/getCurrentWorker", bearerAuth, getCurrentData);
 Router.get("/workerForClient/:id", bearerAuth, getDataForClient);
 Router.post("/worker", bearerAuth, data);
-Router.put("/worker/updateany/:id", bearerAuth, workerUpdate);
-Router.delete("/worker/fav/:id", bearerAuth, deleteFavoriteWorker);
-Router.post("/worker/fav/:id", bearerAuth, postFavoriteWorker);
-Router.delete("/worker/favimg/:id", bearerAuth, deleteFavoriteImgWorker);
-Router.post("/worker/favimg/:id", bearerAuth, postFavoriteImgWorker);
-Router.delete("/worker/recently/:id", bearerAuth, deleteRecently);
-Router.post("/worker/recently/:id", bearerAuth, postRecently);
-Router.delete("/worker/notification/:id", bearerAuth, deleteNotification);
-Router.post("/worker/notification/:id", bearerAuth, postNotification);
-Router.delete("/worker/schedulework/:id", bearerAuth, deleteScheduleWork);
-Router.post("/worker/schedulework/:id", bearerAuth, postScheduleWork);
-Router.delete("/worker/hiswork/:id", bearerAuth, deleteHisWork);
-Router.post("/worker/hiswork/:id", bearerAuth, postHisWork);
-Router.delete("/worker/offers/:id", bearerAuth, deleteOffers);
-Router.post("/worker/offers/:id", bearerAuth, postOffers);
-Router.delete("/worker/tools/:id", bearerAuth, deleteTools);
-Router.post("/worker/tools/:id", bearerAuth, postTools);
-Router.delete("/worker/reviews/:id", bearerAuth, deleteReviews);
-Router.post("/worker/reviews/:id", bearerAuth, postReviews);
-Router.delete("/worker/chat/:id", bearerAuth, deleteChat);
-Router.post("/worker/chat/:id", bearerAuth, postChat);
-Router.delete("/worker/post/:id", bearerAuth, deletePost);
-Router.post("/worker/post/:id", bearerAuth, postPost);
+Router.put("/worker/updateany", bearerAuth, workerUpdate);// RETURN BACK TO THIS FUN  
+Router.delete("/worker/fav", bearerAuth, deleteFavoriteWorker);
+Router.post("/worker/fav", bearerAuth, postFavoriteWorker);
+Router.delete("/worker/favimg", bearerAuth, deleteFavoriteImgWorker);
+Router.post("/worker/favimg", bearerAuth, postFavoriteImgWorker);
+Router.delete("/worker/recently", bearerAuth, deleteRecently);
+Router.post("/worker/recently", bearerAuth, postRecently);
+Router.delete("/worker/notification", bearerAuth, deleteNotification);
+Router.post("/worker/notification", bearerAuth, postNotification);
+Router.delete("/worker/schedulework", bearerAuth, deleteScheduleWork);
+Router.post("/worker/schedulework", bearerAuth, postScheduleWork);
+Router.delete("/worker/hiswork", bearerAuth, deleteHisWork);
+Router.post("/worker/hiswork", bearerAuth, postHisWork);
+Router.delete("/worker/offers", bearerAuth, deleteOffers);
+Router.post("/worker/offers", bearerAuth, postOffers);
+Router.delete("/worker/tools", bearerAuth, deleteTools);
+Router.post("/worker/tools", bearerAuth, postTools);
+Router.delete("/worker/reviews", bearerAuth, deleteReviews);
+Router.post("/worker/reviews", bearerAuth, postReviews);
+Router.delete("/worker/chat", bearerAuth, deleteChat);
+Router.post("/worker/chat", bearerAuth, postChat);
+Router.delete("/worker/post", bearerAuth, deletePost);
+Router.post("/worker/post", bearerAuth, postPost);
 
 // >>>>>>>>>>>>>>>>>>>>>>>>  functions
 
@@ -82,17 +82,17 @@ async function data(req, res) {
 // update any
 async function workerUpdate(req, res) {
   let update = req.body;
-  update.userId = req.userId;
-  let id = req.params.id;
-  let worker = await workerCollection.update(id, update);
-  res.status(200).json(worker);
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
+  let worker = await workerCollection.update(id,update);
+  res.send(worker);
 }
 // delete one from favorite worker
 async function deleteFavoriteWorker(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.favoriteWorker;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { favoriteWorker: item });
   res.send(worker);
@@ -100,33 +100,32 @@ async function deleteFavoriteWorker(req, res) {
 // post one from favorite worker
 async function postFavoriteWorker(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.favoriteWorker;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { favoriteWorker: arres });
-
   res.send(worker);
 }
+
 // ----------------------------------------------------------------------------
 
 // post one from favorite image worker
 async function postFavoriteImgWorker(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.favoriteImg;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { favoriteImg: arres });
-
   res.send(worker);
 }
 // delete one from favorite image worker
 async function deleteFavoriteImgWorker(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.favoriteImg;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { favoriteImg: item });
   res.send(worker);
@@ -136,20 +135,19 @@ async function deleteFavoriteImgWorker(req, res) {
 // post one from recently worker
 async function postRecently(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.recently;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { recently: arres });
-
   res.send(worker);
 }
 // delete one recently worker
 async function deleteRecently(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.recently;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { recently: item });
   res.send(worker);
@@ -159,20 +157,19 @@ async function deleteRecently(req, res) {
 // post one from notification worker
 async function postNotification(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.notification;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { notification: arres });
-
   res.send(worker);
 }
 // delete one notification worker
 async function deleteNotification(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.notification;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { notification: item });
   res.send(worker);
@@ -182,20 +179,19 @@ async function deleteNotification(req, res) {
 // post one from ScheduleWork worker
 async function postScheduleWork(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.scheduleWork;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { scheduleWork: arres });
-
   res.send(worker);
 }
 // delete one ScheduleWork worker
 async function deleteScheduleWork(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.scheduleWork;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { scheduleWork: item });
   res.send(worker);
@@ -205,20 +201,19 @@ async function deleteScheduleWork(req, res) {
 // post one from hisWork worker
 async function postHisWork(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.hisWork;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { hisWork: arres });
-
   res.send(worker);
 }
 // delete one hisWork worker
 async function deleteHisWork(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.hisWork;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { hisWork: item });
   res.send(worker);
@@ -228,20 +223,19 @@ async function deleteHisWork(req, res) {
 // post one from offers worker
 async function postOffers(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.offers;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { offers: arres });
-
   res.send(worker);
 }
 // delete one offers worker
 async function deleteOffers(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.offers;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { offers: item });
   res.send(worker);
@@ -251,20 +245,19 @@ async function deleteOffers(req, res) {
 // post one from tools worker
 async function postTools(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.tools;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { tools: arres });
-
   res.send(worker);
 }
 // delete one tools worker
 async function deleteTools(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.tools;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { tools: item });
   res.send(worker);
@@ -274,20 +267,19 @@ async function deleteTools(req, res) {
 // post one from tools worker
 async function postReviews(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.reviews;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { reviews: arres });
-
   res.send(worker);
 }
 // delete one tools worker
 async function deleteReviews(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.reviews;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { reviews: item });
   res.send(worker);
@@ -296,20 +288,19 @@ async function deleteReviews(req, res) {
 // post one from chat worker
 async function postChat(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
   let item = data.dataValues.chat;
   let arres = [...item, update];
   let worker = await workerCollection.update(id, { chat: arres });
-
   res.send(worker);
 }
 // delete one chat worker
 async function deleteChat(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.chat;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { chat: item });
   res.send(worker);
@@ -320,20 +311,19 @@ async function deleteChat(req, res) {
 // post one from post worker
 async function postPost(req, res) {
   let update = req.body;
-  let id = req.params.id;
-  let data = await workerModel.findOne({ where: { id: id } });
-  let item = data.dataValues.chat;
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let id=data.dataValues.id
+  let item = data.dataValues.post;
   let arres = [...item, update];
-  let worker = await workerCollection.update(id, { chat: arres });
-
+  let worker = await workerCollection.update(id, { post: arres });
   res.send(worker);
 }
 // delete one post worker
 async function deletePost(req, res) {
-  let id = req.params.id;
   let arrayIndex = Number(req.query.index);
-  let data = await workerModel.findOne({ where: { id: id } });
+  let data = await workerModel.findOne({ where: { userId: req.userId } });
   let item = data.dataValues.post;
+  let id = data.dataValues.id;
   item.splice(arrayIndex, 1);
   let worker = await workerCollection.update(id, { post: item });
   res.send(worker);
