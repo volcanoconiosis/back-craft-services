@@ -47,11 +47,12 @@ authRouter.put("/updateaccount", bearerAuth, async (req, res) => {
   res.send(update);
 });
 
-// authRouter.delete("/deleteaccount", bearerAuth, async (req, res) => {
-//   const id = req.userId;
-//   await users.destroy({ where: { id: id } });
-//   res.send("your account deleted sucessfully");
-// });
+authRouter.delete("/deleteaccount", bearerAuth, async (req, res) => {
+  const id = req.userId;
+  
+  await users.destroy({ where: { id: id } });
+  res.send("your account deleted sucessfully");
+});
 
 //  ====== get workers to display them in the home page or sevice page
 authRouter.get("/getAllWorkers", async (req, res) => {
