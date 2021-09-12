@@ -2,7 +2,7 @@
 require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
-const {usersCollection} = require("../models/index");
+const { usersCollection } = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const multer = require("multer");
 const storge = multer.diskStorage({
@@ -40,9 +40,10 @@ Router.post(
   async (req, res) => {
     let path = req.file.path;
     let id = req.userId;
-    let user = await usersCollection.update(id, {profilePicture:path});
+    let user = await usersCollection.update(id, { profilePicture: path });
     res.json(user);
   }
 );
 
 module.exports = Router;
+

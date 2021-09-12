@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
 const { clientCollection, clientModel, adminModel,
-users } = require("../models/index");
+users,adminCollection } = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
 
@@ -240,7 +240,8 @@ async function addSupport(req, res) {
   // let data = await adminModel.findAll();
   // let item = data[0].dataValues.support;
   // let newArray = [...item, newsupport];
-  //{ support: newsupport }
+  // //{ support: newsupport }
+  console.log(newsupport);
   let client = await adminModel.create(newsupport);
   res.send(client);
 
