@@ -15,23 +15,23 @@ Router.post("/client", bearerAuth, createData);
 Router.get('/clientData',bearerAuth,permissions('readUser'), getData)
 
 // ===================== for arrays Routes ==========================
-Router.post("/client/favWorker/:id", bearerAuth, addFavoriteWorker);
-Router.delete("/client/favWorker/:id", bearerAuth, deleteFavoriteWorker);
+Router.post("/client/favWorker", bearerAuth, addFavoriteWorker);
+Router.delete("/client/favWorker", bearerAuth, deleteFavoriteWorker);
 
-Router.post("/client/favoriteImg/:id", bearerAuth, addFavoriteImg);
-Router.delete("/client/favoriteImg/:id", bearerAuth, deleteFavoriteImg);
+Router.post("/client/favoriteImg", bearerAuth, addFavoriteImg);
+Router.delete("/client/favoriteImg", bearerAuth, deleteFavoriteImg);
 
-Router.post("/client/recently/:id", bearerAuth, addRecently);
-Router.delete("/client/recently/:id", bearerAuth, deleteRecently);
+Router.post("/client/recently", bearerAuth, addRecently);
+Router.delete("/client/recently", bearerAuth, deleteRecently);
 
-Router.post("/client/notification/:id", bearerAuth, addNotification);
-Router.delete("/client/notification/:id", bearerAuth, deleteNotification);
+Router.post("/client/notification", bearerAuth, addNotification);
+Router.delete("/client/notification", bearerAuth, deleteNotification);
 
-Router.post("/client/chat/:id", bearerAuth, addChat);
-Router.delete("/client/chat/:id", bearerAuth, deleteChat);
+Router.post("/client/chat", bearerAuth, addChat);
+Router.delete("/client/chat", bearerAuth, deleteChat);
 
-Router.post("/client/post/:id", bearerAuth, addPost);
-Router.delete("/client/post/:id", bearerAuth, deletePost);
+Router.post("/client/post", bearerAuth, addPost);
+Router.delete("/client/post", bearerAuth, deletePost);
 
 Router.post("/support",addSupport)
 
@@ -74,25 +74,24 @@ async function createData(req, res) {
 //=========== start  for array favWorker 
 
 async function addFavoriteWorker(req, res) {
-    let newFav = req.body;
-    let id = req.params.id;
-    let data = await clientModel.findOne({ where: { id: id } });
+    let update = req.body;
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
+    let id=data.dataValues.id
     let item = data.dataValues.favoriteWorker;
-    let newArray = [...item, newFav];
-    let client = await clientCollection.update(id, { favoriteWorker: newArray });
-  
-    res.send(client);
+    let newArray = [...item, update];
+    let worker = await clientCollection.update(id, { favoriteWorker: newArray });
+    res.send(worker);
   }
  
 
   async function deleteFavoriteWorker(req, res) {
-    let id = req.params.id;
     let arrayIndex = Number(req.query.index);
-    let data = await clientModel.findOne({ where: { id: id } });
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
     let item = data.dataValues.favoriteWorker;
+    let id = data.dataValues.id;
     item.splice(arrayIndex, 1);
-    let client = await clientCollection.update(id, { favoriteWorker: item });
-    res.send(client);
+    let worker = await clientCollection.update(id, { favoriteWorker: item });
+    res.send(worker);
   }
 
 
@@ -101,25 +100,24 @@ async function addFavoriteWorker(req, res) {
 //=========== start  for array favoriteImg 
 
 async function addFavoriteImg(req, res) {
-    let newFav = req.body;
-    let id = req.params.id;
-    let data = await clientModel.findOne({ where: { id: id } });
+    let update = req.body;
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
+    let id=data.dataValues.id
     let item = data.dataValues.favoriteImg;
-    let newArray = [...item, newFav];
-    let client = await clientCollection.update(id, { favoriteImg: newArray });
-  
-    res.send(client);
+    let newArray = [...item, update];
+    let worker = await clientCollection.update(id, { favoriteImg: newArray });
+    res.send(worker);
   }
  
 
   async function deleteFavoriteImg(req, res) {
-    let id = req.params.id;
     let arrayIndex = Number(req.query.index);
-    let data = await clientModel.findOne({ where: { id: id } });
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
     let item = data.dataValues.favoriteImg;
+    let id = data.dataValues.id;
     item.splice(arrayIndex, 1);
-    let client = await clientCollection.update(id, { favoriteImg: item });
-    res.send(client);
+    let worker = await clientCollection.update(id, { favoriteImg: item });
+    res.send(worker);
   }
 
 
@@ -128,25 +126,24 @@ async function addFavoriteImg(req, res) {
 //=========== start  for array Recently 
 
 async function addRecently(req, res) {
-    let newFav = req.body;
-    let id = req.params.id;
-    let data = await clientModel.findOne({ where: { id: id } });
+    let update = req.body;
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
+    let id=data.dataValues.id
     let item = data.dataValues.recently;
-    let newArray = [...item, newFav];
-    let client = await clientCollection.update(id, { recently: newArray });
-  
-    res.send(client);
+    let newArray = [...item, update];
+    let worker = await clientCollection.update(id, { recently: newArray });
+    res.send(worker);
   }
  
 
   async function deleteRecently(req, res) {
-    let id = req.params.id;
     let arrayIndex = Number(req.query.index);
-    let data = await clientModel.findOne({ where: { id: id } });
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
     let item = data.dataValues.recently;
+    let id = data.dataValues.id;
     item.splice(arrayIndex, 1);
-    let client = await clientCollection.update(id, { recently: item });
-    res.send(client);
+    let worker = await clientCollection.update(id, { recently: item });
+    res.send(worker);
   }
 
 
@@ -155,25 +152,24 @@ async function addRecently(req, res) {
 //=========== start  for array Notification 
 
 async function addNotification(req, res) {
-    let newFav = req.body;
-    let id = req.params.id;
-    let data = await clientModel.findOne({ where: { id: id } });
+    let update = req.body;
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
+    let id=data.dataValues.id
     let item = data.dataValues.notification;
-    let newArray = [...item, newFav];
-    let client = await clientCollection.update(id, { notification: newArray });
-  
-    res.send(client);
+    let newArray = [...item, update];
+    let worker = await clientCollection.update(id, { notification: newArray });
+    res.send(worker);
   }
  
 
   async function deleteNotification(req, res) {
-    let id = req.params.id;
     let arrayIndex = Number(req.query.index);
-    let data = await clientModel.findOne({ where: { id: id } });
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
     let item = data.dataValues.notification;
+    let id = data.dataValues.id;
     item.splice(arrayIndex, 1);
-    let client = await clientCollection.update(id, { notification: item });
-    res.send(client);
+    let worker = await clientCollection.update(id, { notification: item });
+    res.send(worker);
   }
   
 
@@ -182,25 +178,24 @@ async function addNotification(req, res) {
 //=========== start  for array Chat 
 
 async function addChat(req, res) {
-    let newFav = req.body;
-    let id = req.params.id;
-    let data = await clientModel.findOne({ where: { id: id } });
+    let update = req.body;
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
+    let id=data.dataValues.id
     let item = data.dataValues.chat;
-    let newArray = [...item, newFav];
-    let client = await clientCollection.update(id, { chat: newArray });
-  
-    res.send(client);
+    let newArray = [...item, update];
+    let worker = await clientCollection.update(id, { chat: newArray });
+    res.send(worker);
   }
  
 
   async function deleteChat(req, res) {
-    let id = req.params.id;
     let arrayIndex = Number(req.query.index);
-    let data = await clientModel.findOne({ where: { id: id } });
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
     let item = data.dataValues.chat;
+    let id = data.dataValues.id;
     item.splice(arrayIndex, 1);
-    let client = await clientCollection.update(id, { chat: item });
-    res.send(client);
+    let worker = await clientCollection.update(id, { chat: item });
+    res.send(worker);
   }
 
 
@@ -209,25 +204,24 @@ async function addChat(req, res) {
 //=========== start  for array Post 
 
 async function addPost(req, res) {
-    let newFav = req.body;
-    let id = req.params.id;
-    let data = await clientModel.findOne({ where: { id: id } });
+    let update = req.body;
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
+    let id=data.dataValues.id
     let item = data.dataValues.post;
-    let newArray = [...item, newFav];
-    let client = await clientCollection.update(id, { post: newArray });
-  
-    res.send(client);
+    let newArray = [...item, update];
+    let worker = await clientCollection.update(id, { post: newArray });
+    res.send(worker);
   }
  
 
   async function deletePost(req, res) {
-    let id = req.params.id;
     let arrayIndex = Number(req.query.index);
-    let data = await clientModel.findOne({ where: { id: id } });
+    let data = await clientModel.findOne({ where: { userId: req.userId } });
     let item = data.dataValues.post;
+    let id = data.dataValues.id;
     item.splice(arrayIndex, 1);
-    let client = await clientCollection.update(id, { post: item });
-    res.send(client);
+    let worker = await clientCollection.update(id, { post: item });
+    res.send(worker);
   }
 
 
