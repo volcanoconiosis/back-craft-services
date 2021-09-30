@@ -44,11 +44,9 @@ Router.post(
     let user;
     if(role==="user"){
       user = await clientCollection.update(id, { profilePicture: path });
-    }
-    if(role==="worker"){
+    }else if(role==="worker"){
       user = await workerCollection.update(id, { profilePicture: path });
-    }
-    if(role==="admin"){
+    }else if(role==="admin"){
       user = await adminCollection.update(id, { profilePicture: path });
     }
     res.json(user);
