@@ -41,15 +41,17 @@ Router.post(
     let path = req.file.path;
     let id = req.userId;
     let role=req.role;
-    let user;
     if(role==="user"){
-      user = await clientCollection.update(id, { profilePicture: path });
+      let user = await clientCollection.update(id, { profilePicture: path });
+      res.json(user);
     }else if(role==="worker"){
-      user = await workerCollection.update(id, { profilePicture: path });
+      let user = await workerCollection.update(id, { profilePicture: path });
+      res.json(user);
     }else if(role==="admin"){
-      user = await adminCollection.update(id, { profilePicture: path });
+      let user = await adminCollection.update(id, { profilePicture: path });
+      res.json(user);
     }
-    res.json(user);
+    
   }
 );
 
