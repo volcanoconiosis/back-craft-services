@@ -11,8 +11,7 @@ const clientModel = (sequelize, DataTypes) => {
     firstName: { type: DataTypes.STRING, required: true },
     profilePicture: {
       type: DataTypes.STRING,
-      defaultValue:
-        "https://st2.depositphotos.com/1104517/11967/v/950/depositphotos_119675554-stock-illustration-male-avatar-profile-picture-vector.jpg",
+      defaultValue: " ",
     },
     lastName: { type: DataTypes.STRING, required: true },
     password: { type: DataTypes.STRING, required: true },
@@ -20,8 +19,8 @@ const clientModel = (sequelize, DataTypes) => {
     phone: { type: DataTypes.STRING, required: true },
     location: { type: DataTypes.STRING, required: true },
     // ============ extra worker
-    store: { type: DataTypes.STRING ,defaultValue:" "},
-    workType: { type: DataTypes.STRING,defaultValue:" " },
+    store: { type: DataTypes.STRING, defaultValue: " " },
+    workType: { type: DataTypes.STRING, defaultValue: " " },
     // ==========================
 
     role: {
