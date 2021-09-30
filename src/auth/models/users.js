@@ -9,10 +9,6 @@ const clientModel = (sequelize, DataTypes) => {
   const model = sequelize.define("users", {
     username: { type: DataTypes.STRING, required: true, unique: true },
     firstName: { type: DataTypes.STRING, required: true },
-    profilePicture: {
-      type: DataTypes.STRING,
-      defaultValue: " ",
-    },
     lastName: { type: DataTypes.STRING, required: true },
     password: { type: DataTypes.STRING, required: true },
     email: { type: DataTypes.STRING, required: true, unique: true },

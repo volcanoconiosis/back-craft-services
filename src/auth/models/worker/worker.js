@@ -17,7 +17,11 @@ const workerModel = (sequelize, DataTypes) => {
     reviews: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] },
     chat: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] }, // delete
     post: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] }, // delete 
-    userId:{type: DataTypes.INTEGER }
+    userId:{type: DataTypes.INTEGER },
+    profilePicture: {
+      type: DataTypes.STRING,
+      defaultValue: " ",
+    },
   });
   return model;
 };

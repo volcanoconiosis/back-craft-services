@@ -9,6 +9,10 @@ const clientModel = (sequelize, DataTypes) => {
     chat: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] },
     post: { type: DataTypes.ARRAY(DataTypes.JSON),defaultValue: [] },
     userId: { type: DataTypes.INTEGER },
+    profilePicture: {
+      type: DataTypes.STRING,
+      defaultValue: " ",
+    },
   });
   return model;
 };
