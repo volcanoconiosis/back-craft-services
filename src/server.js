@@ -9,6 +9,8 @@ const clientRoutes = require("../src/auth/routes/clientRouter");
 const adminRoutes = require("../src/auth/routes/adminRoutes");
 const usersRoute = require("../src/auth/routes/usersRoutes");
 const app = exprees();
+const cors = require("cors");
+app.use(cors());
 
 app.use(exprees.json());
 app.use(exprees.urlencoded({ extended: true }));
@@ -19,7 +21,7 @@ app.use(adminRoutes);
 app.use(usersRoute);
 
 // make the uploads folder is static (accessble)
-app.use("/uploads",exprees.static("uploads"));
+app.use("/uploads", exprees.static("uploads"));
 // routes
 app.get("/", (req, res) => {
   res.send("Welcome to home  🥶🔧👿");
@@ -33,9 +35,9 @@ const start = (port) => {
 };
 
 // bad router
-app.get('/badmethod',(req,res)=>{
-  throw new Error('Error');
-})
+app.get("/badmethod", (req, res) => {
+  throw new Error("Error");
+});
 // use middleware
 app.use(notFound);
 app.use(errorHandler);
