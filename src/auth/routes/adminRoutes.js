@@ -60,7 +60,7 @@ async function addSupport(req, res) {
   let id = data.dataValues.id;
   let item = data.dataValues.post;
   let newArray = [...item, newsupport];
-  let client = await adminCollection.update(id, { post: newArray });
+  let client = await adminCollection.update(id, { support: newArray });
   res.send(client);
 }
 module.exports = Router;
