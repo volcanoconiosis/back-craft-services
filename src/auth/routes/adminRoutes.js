@@ -7,6 +7,7 @@ const {
   workerCollection,
   clientCollection,
   adminCollection,
+  adminModel
 } = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
