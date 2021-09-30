@@ -41,6 +41,7 @@ Router.post(
     let path = req.file.path;
     let id = req.userId;
     let role=req.role;
+    console.log("from routes=====>",role);
     if(role==="user"){
       let user = await clientCollection.update(id, { profilePicture: path });
       res.json(user);

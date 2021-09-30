@@ -14,6 +14,7 @@ module.exports = async (req, res, next) => {
     req.token = validUser.token;
     req.userId = validUser.id;
     req.role = validUser.role;
+    console.log("from barer=====>",validUser.role);
     next();
   } catch (e) {
     console.log(e);

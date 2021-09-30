@@ -7,7 +7,7 @@ const {
   workerCollection,
   clientCollection,
   adminCollection,
-  adminModel
+  adminModel,
 } = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
@@ -15,6 +15,7 @@ const permissions = require("../middlewear/acl");
 Router.post("/support", addSupport);
 Router.get("/clients", bearerAuth, permissions("readAll"), getClient);
 Router.get("/getWorkers", bearerAuth, permissions("readAll"), getWorkers);
+Router.get("/adminData", bearerAuth, permissions("readAll"), adminData);
 Router.delete(
   "/deleteuser/:id",
   bearerAuth,
@@ -56,15 +57,21 @@ async function getSupport(req, res) {
 }
 
 async function addSupport(req, res) {
-  let newsupport = req.body;
-  // let data = await adminModel.findAll();
-  // let item = data[0].dataValues.support;
-  // let newArray = [...item, newsupport];
-  //{ support: newsupport }
-  let client = await adminModel.create(newsupport);
-  res.send(client);
+  let update = req.body;
+  let data = await adminModel.findAll();
+  console.log(data);
+  data.map(async (el) => {
+    console.log("eleleleelelel>>>>", el);
+    let id = el.dataValues.id;
+    let item = el.dataValues.support;
+    let newArray = [...item, update];
+    let admin = await adminCollection.update(id, { support: newArray });
+    res.send(admin);
+  });
+}
 
-
+async function adminData(req, res) {
+  let data = await adminModel.findOne({ where: { userId: req.userId } });
+  res.send(data);
 }
 module.exports = Router;
-
