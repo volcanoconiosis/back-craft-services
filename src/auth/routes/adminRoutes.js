@@ -56,12 +56,14 @@ async function getSupport(req, res) {
 
 async function addSupport(req, res) {
   let newsupport = req.body;
-  let data = await adminModel.findOne({ where: { userId: 2 } });
-  let id = data.dataValues.id;
-  let item = data.dataValues.post;
-  let newArray = [...item, newsupport];
-  let client = await adminCollection.update(id, { support: newArray });
+  // let data = await adminModel.findAll();
+  // let item = data[0].dataValues.support;
+  // let newArray = [...item, newsupport];
+  //{ support: newsupport }
+  let client = await adminModel.create(newsupport);
   res.send(client);
+
+
 }
 module.exports = Router;
 
