@@ -5,11 +5,7 @@ const authRouter = express.Router();
 const { users } = require("../models/index");
 const basicAuth = require("../middlewear/basicAuth");
 const bearerAuth = require("../middlewear/bearerAuth");
-const {
-  workerCollection,
-  clientCollection,
-  adminCollection,
-} = require("../models/index");
+const {workerCollection,clientCollection}=require("../models/index")
 
 authRouter.post("/signup", async (req, res, next) => {
   try {
@@ -19,18 +15,14 @@ authRouter.post("/signup", async (req, res, next) => {
       token: userRecord.token,
     };
     console.log(userRecord);
-    if (userRecord.role === "worker") {
+    if(userRecord.role==='worker'){
       let update = req.body;
-      update.userId = userRecord.id;
+      update.userId =userRecord.id;
       await workerCollection.create(update);
-    } else if (userRecord.role === "user") {
+    }else if(userRecord.role==='user'){
       let update = req.body;
-      update.userId = userRecord.id;
+      update.userId =userRecord.id;
       await clientCollection.create(update);
-    } else if (userRecord.role === "admin") {
-      let update = req.body;
-      update.userId = userRecord.id;
-      await adminCollection.create(update);
     }
     res.status(201).json(output);
   } catch (e) {
@@ -57,7 +49,7 @@ authRouter.put("/updateaccount", bearerAuth, async (req, res) => {
 
 authRouter.delete("/deleteaccount", bearerAuth, async (req, res) => {
   const id = req.userId;
-
+  
   await users.destroy({ where: { id: id } });
   res.send("your account deleted sucessfully");
 });
