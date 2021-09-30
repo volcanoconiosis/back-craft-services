@@ -13,6 +13,7 @@ module.exports = async (req, res, next) => {
     req.user = validUser;
     req.token = validUser.token;
     req.userId = validUser.id;
+    req.role = validUser.role;
     next();
   } catch (e) {
     console.log(e);
