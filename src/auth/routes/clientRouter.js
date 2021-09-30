@@ -37,7 +37,7 @@ Router.post("/client/post", bearerAuth, addPost);
 Router.put("/client/post", bearerAuth, updatePost);
 Router.delete("/client/post", bearerAuth, deletePost);
 
-Router.post("/support", addSupport);
+
 
 //  =========== start main function ===============
 
@@ -230,15 +230,6 @@ async function deletePost(req, res) {
 //=================================================================
 //=========== start for add support
 
-async function addSupport(req, res) {
-  let newsupport = req.body;
-  // let data = await adminModel.findAll();
-  // let item = data[0].dataValues.support;
-  // let newArray = [...item, newsupport];
-  // //{ support: newsupport }
-  console.log(newsupport);
-  let client = await adminModel.create(newsupport);
-  res.send(client);
-}
+
 
 module.exports = Router;

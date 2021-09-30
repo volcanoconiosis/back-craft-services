@@ -11,6 +11,7 @@ const {
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
 
+Router.post("/support", addSupport);
 Router.get("/clients", bearerAuth, permissions("readAll"), getClient);
 Router.get("/getWorkers", bearerAuth, permissions("readAll"), getWorkers);
 Router.delete(
@@ -53,4 +54,14 @@ async function getSupport(req, res) {
   res.status(200).json(list);
 }
 
+async function addSupport(req, res) {
+  let newsupport = req.body;
+  let data = await adminModel.findOne({ where: { userId: 2 } });
+  let id = data.dataValues.id;
+  let item = data.dataValues.post;
+  let newArray = [...item, newsupport];
+  let client = await adminCollection.update(id, { post: newArray });
+  res.send(client);
+}
 module.exports = Router;
+
