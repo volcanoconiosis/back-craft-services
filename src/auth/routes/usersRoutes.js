@@ -2,7 +2,11 @@
 require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
-const { adminCollection,clientCollection,workerCollection } = require("../models/index");
+const {
+  adminCollection,
+  clientCollection,
+  workerCollection,
+} = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const multer = require("multer");
 const storge = multer.diskStorage({
@@ -39,22 +43,8 @@ Router.post(
   upload.single("userImg"),
   async (req, res) => {
     let path = req.file.path;
-    let id = req.userId;
-    let role=req.role;
-    console.log("from routes=====>",role);
-    if(role==="user"){
-      let user = await clientCollection.update(id, { profilePicture: path });
-      res.json(user);
-    }else if(role==="worker"){
-      let user = await workerCollection.update(id, { profilePicture: path });
-      res.json(user);
-    }else if(role==="admin"){
-      let user = await adminCollection.update(id, { profilePicture: path });
-      res.json(user);
-    }
-    
+    res.json(path);
   }
 );
 
 module.exports = Router;
-

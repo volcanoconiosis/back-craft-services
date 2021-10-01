@@ -25,6 +25,7 @@ app.use(uploadImges);
 // make the uploads folder is static (accessble)
 app.use("/uploads", exprees.static("uploads"));
 app.use("/images", exprees.static("images"));
+app.use("/userImges", exprees.static("userImges"));
 // routes
 app.get("/", (req, res) => {
   res.send("Welcome to home  🥶🔧👿");

@@ -7,3 +7,4 @@ const {start}=require('./src/server');
 db.sync().then(()=>{
     start(process.env.PORT||8000);
 });
+
