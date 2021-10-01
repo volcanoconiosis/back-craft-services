@@ -13,7 +13,7 @@ const permissions = require("../middlewear/acl");
 
 // ====================== main Routes ================================
 Router.get("/getCurrentUser", bearerAuth, getCurrentData);
-Router.put("/client/updateany/:id", bearerAuth, clientUpdate);
+Router.put("/client/updateany", bearerAuth, clientUpdate);
 Router.post("/client", bearerAuth, createData);
 Router.get("/clientData", bearerAuth, permissions("readUser"), getData);
 
@@ -63,10 +63,10 @@ async function createData(req, res) {
 //========== update for client data
 async function clientUpdate(req, res) {
   let update = req.body;
-  update.userId = req.userId;
-  let id = req.params.id;
-  let client = await clientCollection.update(id, update);
-  res.status(200).json(client);
+  let data = await clientModel.findOne({ where: { userId: req.userId } });
+  let id = data.dataValues.id;
+  let worker = await clientCollection.update(id, update);
+  res.send(worker);
 }
 
 //  =========== end main function ===============
