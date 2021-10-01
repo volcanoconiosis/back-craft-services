@@ -15,6 +15,7 @@ const permissions = require("../middlewear/acl");
 Router.post("/support", addSupport);
 Router.get("/clients", bearerAuth, permissions("readAll"), getClient);
 Router.get("/getWorkersData", getWorkers);
+Router.get("/getWorkersData/:id", getWorkersById);
 Router.get("/adminData", bearerAuth, permissions("readAll"), adminData);
 Router.get("/adminPersonal", bearerAuth, adminPersonal);
 Router.delete(
@@ -35,6 +36,10 @@ async function getClient(req, res) {
 async function getWorkers(req, res) {
   let workers = await workerCollection.read();
   res.status(200).send(workers);
+}
+async function getWorkersById(req, res) {
+  let worker = await workerCollection.read(req.params.id);
+  res.status(200).send(worker);
 }
 
 async function deleteUsers(req, res) {
