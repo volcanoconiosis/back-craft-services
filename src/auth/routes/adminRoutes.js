@@ -77,7 +77,8 @@ async function addSupport(req, res) {
 }
 
 async function adminData(req, res) {
-  let data = await adminModel.findOne({ where: { userId: req.userId } });
+  let id =req.userId
+  let data = await adminCollection.read(id);
   res.send(data);
 }
 
