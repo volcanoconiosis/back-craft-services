@@ -5,7 +5,7 @@ const authRouter = express.Router();
 const { users } = require("../models/index");
 const basicAuth = require("../middlewear/basicAuth");
 const bearerAuth = require("../middlewear/bearerAuth");
-const {workerCollection,clientCollection}=require("../models/index")
+const {workerCollection,clientCollection,adminCollection}=require("../models/index")
 
 authRouter.post("/signup", async (req, res, next) => {
   try {
@@ -23,6 +23,10 @@ authRouter.post("/signup", async (req, res, next) => {
       let update = req.body;
       update.userId =userRecord.id;
       await clientCollection.create(update);
+    }else if (userRecord.role==='admin'){
+      let update = req.body;
+      update.userId =userRecord.id;
+      await adminCollection.create(update);
     }
     res.status(201).json(output);
   } catch (e) {
