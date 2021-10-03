@@ -34,7 +34,7 @@ Router.delete("/worker/tools", bearerAuth, deleteTools);
 Router.put("/worker/tools", bearerAuth, updateTools);
 Router.post("/worker/tools", bearerAuth, postTools);
 Router.delete("/worker/reviews", bearerAuth, deleteReviews);
-Router.post("/worker/reviews", bearerAuth, postReviews);
+Router.post("/worker/reviews/:id", bearerAuth, postReviews);
 Router.delete("/worker/chat", bearerAuth, deleteChat);
 Router.post("/worker/chat", bearerAuth, postChat);
 Router.delete("/worker/post", bearerAuth, deletePost);
@@ -330,8 +330,9 @@ async function deleteTools(req, res) {
 
 // post one from reviews worker
 async function postReviews(req, res) {
+  let idworker = req.params.id;
   let update = req.body;
-  let data = await workerModel.findOne({ where: { userId: req.userId } });
+  let data = await workerModel.findOne({ where: { userId:idworker } });
   let id = data.dataValues.id;
   let item = data.dataValues.reviews;
   let arres = [...item, update];
