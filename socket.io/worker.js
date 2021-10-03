@@ -1,7 +1,7 @@
 'use strict';
 
 const client = require('socket.io-client');
-const host = "http://localhost:3000/messanger";
+const host = "http://localhost:8000/messanger";
 const socket = client.connect(host);
 let workerID ='2';
 let clientID ='1';
