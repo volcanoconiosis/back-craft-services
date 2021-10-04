@@ -52,7 +52,11 @@ app.use(errorHandler);
 
 // =========================== socket ===============================
 
-const io = require("socket.io")(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "*",
+  },
+});
 const uuid = require("uuid").v4;
 
 const msgQueue = {
