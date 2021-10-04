@@ -12,8 +12,8 @@ const uploadImges = require("../src/auth/routes/uploadImges");
 const app = exprees();
 const cors = require("cors");
 const http = require("http");
-const server = http.createServer(app);
 app.use(cors());
+const server = http.createServer(app);
 
 app.use(exprees.json());
 app.use(exprees.urlencoded({ extended: true }));
