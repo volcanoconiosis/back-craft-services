@@ -2,7 +2,13 @@
 require("dotenv").config();
 const express = require("express");
 const Router = express.Router();
-const { workerCollection, workerModel, users } = require("../models/index");
+const {
+  workerCollection,
+  workerModel,
+  users,
+  usersCollection,
+  userModel,
+} = require("../models/index");
 const bearerAuth = require("../middlewear/bearerAuth");
 const permissions = require("../middlewear/acl");
 
@@ -54,7 +60,18 @@ async function getData(req, res) {
 async function getDataForClient(req, res) {
   let id = req.params.id;
   let worker = await workerCollection.read(id);
+  let user = await userModel.findOne({ where: { id: id } });
+
   let obj = {
+    username: user.username,
+    lastName: user.lastName,
+    email: user.email,
+    phone: user.phone,
+    location: user.location,
+    store: user.store,
+    workType: user.workType,
+    role: user.role,
+    firstName: user.firstName,
     status: worker[0].dataValues.status,
     scheduleWork: worker[0].dataValues.scheduleWork,
     hisWork: worker[0].dataValues.hisWork,
@@ -103,8 +120,6 @@ async function deleteFavoriteWorker(req, res) {
   res.send(worker);
 }
 
-
-
 // post one from favorite worker
 async function postFavoriteWorker(req, res) {
   let update = req.body;
@@ -138,7 +153,6 @@ async function deleteFavoriteImgWorker(req, res) {
   let worker = await workerCollection.update(id, { favoriteImg: item });
   res.send(worker);
 }
-
 
 // --------------------------------------------------------------------------
 
@@ -332,7 +346,7 @@ async function deleteTools(req, res) {
 async function postReviews(req, res) {
   let idworker = req.params.id;
   let update = req.body;
-  let data = await workerModel.findOne({ where: { userId:idworker } });
+  let data = await workerModel.findOne({ where: { userId: idworker } });
   let id = data.dataValues.id;
   let item = data.dataValues.reviews;
   let arres = [...item, update];
